@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Timetable Viewer</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --accent: #ec4899;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: var(--text);
+    }
+
+    .container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 650px;
+      padding: 28px;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Top Navigation */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      background: #f1f5f9;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .back-btn:hover {
+      background: #e2e8f0;
+      transform: translateX(-3px);
+    }
+
+    .alarm-btn {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .alarm-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(225, 29, 72, 0.4);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #4f46e5, #9333ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    input[type="date"] {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s ease;
+      color: var(--text);
+      background: #ffffff;
+    }
+
+    input[type="date"]:focus {
+      border-color: var(--primary);
+    }
+
+    .done-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .done-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    #output {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-radius: 16px;
+      min-height: 120px;
+      margin-bottom: 20px;
+    }
+
+    .day-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* Table Styling */
+    #output table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    #output th, #output td {
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    #output th {
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+
+    #output tr:last-child td {
+      border-bottom: none;
+    }
+
+    #output tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    /* Action Buttons */
+    .buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .buttons button, .buttons a {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .buttons button:hover, .buttons a:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+      transform: translateY(-2px);
+    }
+
+    #whatsappBtn {
+      background: #25d366;
+      color: white;
+      border: none;
+    }
+
+    #whatsappBtn:hover {
+      background: #20ba5a;
+      color: white;
+    }
+
+    /* Alarm Popup Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal-card {
+      background: white;
+      padding: 30px;
+      border-radius: 24px;
+      text-align: center;
+      width: 90%;
+      max-width: 360px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .alarm-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      animation: ring 0.5s infinite alternate;
+    }
+
+    .modal-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .modal-card p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .stop-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .stop-btn:hover {
+      transform: scale(1.02);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes ring {
+      0% { transform: rotate(-15deg); }
+      100% { transform: rotate(15deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="top-bar">
+      <button class="back-btn" onclick="window.history.back()">
+        ← Back
+      </button>
+      <button class="alarm-btn" onclick="startAlarm()">
+        ⏰ Demo Alarm
+      </button>
+    </div>
+
+    <h2>Daily College Timetable</h2>
+    
+    <div class="input-group">
+      <input type="date" id="dateInput" />
+      <button class="done-btn" onclick="showTimetable()">Done</button>
+    </div>
+
+    <div id="output">
+      <span class="day-title" style="color: var(--muted); font-size: 15px; font-weight: normal;">
+        Please select a date above to view the timetable.
+      </span>
+    </div>
+
+    <div class="buttons">
+      <button onclick="copyToClipboard()">📋 Copy</button>
+      <a id="whatsappBtn" href="#" target="_blank">📤 WhatsApp</a>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="alarmModal">
+    <div class="modal-card">
+      <div class="alarm-icon">⏰</div>
+      <h3>College Class Alarm!</h3>
+      <p>It's time for your upcoming class!</p>
+      <button class="stop-btn" onclick="stopAlarm()">OK / Stop Alarm</button>
+    </div>
+  </div>
+
+  <script>
+    const timetable = {
+      Monday: `10:00 - 10:45: Statistics - Smiti Madam
+10:45 - 11:30: Fundamentals of Entrepreneurship - Sidhant Sir
+11:30 - 12:15: MIL O/H - Odia/Hindi
+12:15 - 1:00: Accountancy - Sanjay Sir
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Tuesday: `10:00 - 10:45: Statistics - Smiti Madam
+10:45 - 11:30: Fundamentals of Entrepreneurship - Sidhant Sir
+11:30 - 12:15: Accountancy - Sanjay Sir
+12:15 - 1:00: English - Simantika Madam
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Wednesday: `10:00 - 10:45: Statistics - Smiti Madam
+10:45 - 11:30: Fundamentals of Entrepreneurship - Sidhant Sir
+11:30 - 12:15: MIL O/H - Odia/Hindi
+12:15 - 1:00: English - Simantika Madam
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Thursday: `10:00 - 10:45: Statistics - Smiti Madam
+10:45 - 11:30: Fundamentals of Entrepreneurship - Sidhant Sir
+11:30 - 12:15: Accountancy - Sanjay Sir
+12:15 - 1:00: Business Studies - Faizahn Sir
+1:00 - 1:45: Blank - Blank`,
+
+      Friday: `10:00 - 10:45: Yoga - Yoga
+10:45 - 11:30: English - Simantika Madam
+11:30 - 12:15: MIL O/H - Odia/Hindi
+12:15 - 1:00: Accountancy - Sanjay Sir
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Saturday: `10:00 - 10:45: Yoga - Yoga
+10:45 - 11:30: English - Simantika Madam
+11:30 - 12:15: MIL O/H - Odia/Hindi
+12:15 - 1:00: Blank - Blank
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Sunday: `Holiday - No Classes`
+    };
+
+    function showTimetable() {
+      const dateVal = document.getElementById('dateInput').value;
+      if (!dateVal) {
+        alert("Please select a date first!");
+        return;
+      }
+
+      const date = new Date(dateVal);
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+      const dayData = timetable[dayName];
+
+      if (dayData) {
+        if (dayData.includes("Holiday")) {
+          document.getElementById('output').innerHTML = `<span class="day-title">📅 ${dayName}</span><em>${dayData}</em>`;
+          document.getElementById('whatsappBtn').href = "https://wa.me/?text=" + encodeURIComponent(`${dayName}: ${dayData}`);
+        } else {
+          let rows = dayData.split('\n').map(line => {
+            const [time, rest] = line.split(': ');
+            const [subject, teacher] = rest.split(' - ');
+            return `<tr>
+              <td><strong>${time}</strong></td>
+              <td>${subject}</td>
+              <td>${teacher}</td>
+            </tr>`;
+          }).join('');
+
+          const table = `
+            <span class="day-title">📅 ${dayName}</span>
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Subject</th>
+                  <th>Teacher</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>`;
+
+          document.getElementById('output').innerHTML = table;
+          document.getElementById('whatsappBtn').href = "https://wa.me/?text=" + encodeURIComponent(`${dayName} Timetable:\n\n${dayData}`);
+        }
+      } else {
+        document.getElementById('output').innerHTML = "<span class='day-title'>No classes on this day!</span>";
+        document.getElementById('whatsappBtn').href = "#";
+      }
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById('output').innerText;
+      if (!text || text.includes("Please select a date")) {
+        alert("Select a date to generate timetable first!");
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Timetable copied to clipboard!");
+      });
+    }
+
+    /* --- Alarm Sound Logic using Web Audio API --- */
+    let audioCtx = null;
+    let alarmInterval = null;
+
+    function playBeep() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Pitch (Hz)
+      
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.3);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    function startAlarm() {
+      document.getElementById('alarmModal').style.display = 'flex';
+      
+      // Ring sound repeatedly
+      playBeep();
+      alarmInterval = setInterval(playBeep, 500);
+    }
+
+    function stopAlarm() {
+      document.getElementById('alarmModal').style.display = 'none';
+      if (alarmInterval) {
+        clearInterval(alarmInterval);
+        alarmInterval = null;
+      }
+    }
+  </script>
+</body>
+</html>
