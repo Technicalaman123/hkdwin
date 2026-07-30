@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Principal Portal — Gurukul Higher Secondary School</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(21, 28, 44, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --purple: #a855f7;
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.3);
+      --red: #f43f5e;
+      --red-glow: rgba(244, 63, 94, 0.3);
+      --orange: #f59e0b;
+      --blue: #3b82f6;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 20%, rgba(168, 85, 247, 0.12) 0%, transparent 35%),
+        radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+
+    .wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    /* Top Nav Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .back-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-3px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .sys-time {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Profile Header */
+    .profile-card {
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.8), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 24px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      margin-bottom: 28px;
+    }
+
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .profile-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .principal-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+    }
+
+    .avatar-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 2px solid rgba(168, 85, 247, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .badge-access {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    .principal-details h1 {
+      font-size: 26px;
+      font-weight: 800;
+      margin: 4px 0 2px;
+      background: linear-gradient(90deg, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .school-name {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .session-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 14px;
+      text-align: right;
+    }
+
+    .session-pill label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .session-pill span {
+      font-size: 15px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    /* Main Summary Cards Grid */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .summary-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .card-value {
+      font-size: 28px;
+      font-weight: 800;
+      margin-top: 4px;
+      color: #fff;
+    }
+
+    /* Card Themes */
+    .c-blue .card-icon { background: rgba(59, 130, 246, 0.15); color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+    .c-purple .card-icon { background: rgba(168, 85, 247, 0.15); color: #c084fc; box-shadow: 0 0 15px rgba(168, 85, 247, 0.2); }
+    .c-green .card-icon { background: rgba(16, 185, 129, 0.15); color: #34d399; box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
+    .c-red .card-icon { background: rgba(244, 63, 94, 0.15); color: #fb7185; box-shadow: 0 0 15px rgba(244, 63, 94, 0.2); }
+    .c-indigo .card-icon { background: rgba(99, 102, 241, 0.15); color: #818cf8; box-shadow: 0 0 15px rgba(99, 102, 241, 0.2); }
+
+    /* Layout Grids */
+    .layout-2col {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    .card-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+
+    .box-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .box-head h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Ring Graph Section */
+    .attendance-flex {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .ring-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+    }
+
+    .ring-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.05);
+      stroke-width: 10;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke: url(#greenGradient);
+      stroke-width: 10;
+      stroke-dasharray: 377;
+      stroke-dashoffset: 377;
+      stroke-linecap: round;
+      animation: fillRing 1.8s cubic-bezier(0.1, 1, 0.1, 1) forwards 0.3s;
+    }
+
+    .ring-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .ring-text .num {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .ring-text span {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .att-stats-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 180px;
+    }
+
+    .stat-row-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    /* Class Wise Progress Bars */
+    .class-bars {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 20px;
+    }
+
+    .bar-item-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .progress-track {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0%;
+      transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1);
+    }
+
+    /* Calendar Styling */
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      text-align: center;
+    }
+
+    .cal-dow {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      padding-bottom: 8px;
+    }
+
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cal-day:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: scale(1.05);
+    }
+
+    .cal-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      margin-top: 3px;
+    }
+
+    .dot-present { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .dot-absent { background: var(--red); box-shadow: 0 0 6px var(--red); }
+    .dot-holiday { background: var(--orange); box-shadow: 0 0 6px var(--orange); }
+    .dot-leave { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
+
+    .cal-legend {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+      font-size: 11px;
+      color: var(--muted);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Quick Actions */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .btn-quick {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      border: 1px solid var(--card-border);
+      padding: 16px;
+      border-radius: 16px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-quick:hover {
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      border-color: transparent;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-quick i {
+      font-size: 20px;
+    }
+
+    /* Notices List */
+    .notice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .notice-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      transition: 0.2s;
+    }
+
+    .notice-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .notice-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .notice-date {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .badge-prio {
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .prio-high { background: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
+    .prio-medium { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .prio-normal { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+    .btn-create-notice {
+      background: linear-gradient(135deg, var(--purple), var(--primary));
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+      transition: 0.2s;
+    }
+
+    .btn-create-notice:hover {
+      transform: scale(1.05);
+    }
+
+    /* Timeline Recent Activity */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 5px;
+      bottom: 5px;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .tl-item {
+      position: relative;
+    }
+
+    .tl-item::before {
+      content: "✓";
+      position: absolute;
+      left: -20px;
+      top: 0;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #000;
+      font-size: 9px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .tl-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .tl-time {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 8px rgba(168, 85, 247, 0.4); }
+      to { box-shadow: 0 0 18px rgba(168, 85, 247, 0.8); }
+    }
+
+    @keyframes fillRing {
+      to { stroke-dashoffset: 31; } /* 377 * (1 - 0.918) approx */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .layout-2col { grid-template-columns: 1fr; }
+      .profile-inner { flex-direction: column; align-items: flex-start; }
+      .session-pill { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+
+    <div class="top-bar">
+      <button class="back-btn" onclick="window.history.back()">
+        ← Back to Portal
+      </button>
+      <div class="sys-time" id="liveClock">Session 2026–27 | Live</div>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-inner">
+        <div class="principal-info">
+          <div class="avatar-wrapper">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=250&auto=format&fit=crop" alt="Mr. Rajesh Kumar" class="avatar-img" />
+          </div>
+          <div class="principal-details">
+            <span class="badge-access">⚡ Administrator Access</span>
+            <h1>Mr. Rajesh Kumar</h1>
+            <div class="school-name">Principal • Gurukul Higher Secondary School</div>
+          </div>
+        </div>
+        <div class="session-pill">
+          <label>Academic Session</label>
+          <span>2026–27</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-card c-blue">
+        <div class="card-icon">👨‍🎓</div>
+        <div class="card-title">Total Students</div>
+        <div class="card-value" data-target="1248">0</div>
+      </div>
+
+      <div class="summary-card c-purple">
+        <div class="card-icon">👨‍🏫</div>
+        <div class="card-title">Total Teachers</div>
+        <div class="card-value" data-target="68">0</div>
+      </div>
+
+      <div class="summary-card c-green">
+        <div class="card-icon">✓</div>
+        <div class="card-title">Present Today</div>
+        <div class="card-value" data-target="1143">0</div>
+      </div>
+
+      <div class="summary-card c-red">
+        <div class="card-icon">✕</div>
+        <div class="card-title">Absent Today</div>
+        <div class="card-value" data-target="105">0</div>
+      </div>
+
+      <div class="summary-card c-indigo">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Overall Attendance</div>
+        <div class="card-value">91.8%</div>
+      </div>
+    </div>
+
+    <div class="quick-grid">
+      <button class="btn-quick"><i>👨‍🎓</i> View Students</button>
+      <button class="btn-quick"><i>👨‍🏫</i> View Teachers</button>
+      <button class="btn-quick"><i>📅</i> Attendance</button>
+      <button class="btn-quick"><i>📢</i> Create Notice</button>
+    </div>
+
+    <div class="layout-2col">
+      
+      <div class="card-box">
+        <div class="box-head">
+          <h2>📊 Today's Attendance Overview</h2>
+        </div>
+
+        <div class="attendance-flex">
+          <div class="ring-container">
+            <svg class="ring-svg" viewBox="0 0 140 140">
+              <defs>
+                <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#10b981" />
+                  <stop offset="100%" stop-color="#34d399" />
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="70" cy="70" r="60"></circle>
+              <circle class="ring-fill" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="ring-text">
+              <div class="num">91.8%</div>
+              <span>Present</span>
+            </div>
+          </div>
+
+          <div class="att-stats-list">
+            <div class="stat-row-item">
+              <span style="color:var(--muted)">Present Students</span>
+              <strong style="color:var(--green)">1,143</strong>
+            </div>
+            <div class="stat-row-item">
+              <span style="color:var(--muted)">Absent Students</span>
+              <strong style="color:var(--red)">105</strong>
+            </div>
+            <div class="stat-row-item">
+              <span style="color:var(--muted)">Total Capacity</span>
+              <strong>1,248</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="class-bars">
+          <div>
+            <div class="bar-item-header">
+              <span>Arts XI</span>
+              <span style="color:var(--green)">91%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="background:var(--green)" data-width="91%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="bar-item-header">
+              <span>Arts XII</span>
+              <span style="color:#fbbf24">88%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="background:var(--orange)" data-width="88%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="bar-item-header">
+              <span>Commerce XI</span>
+              <span style="color:var(--green)">94%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="background:var(--green)" data-width="94%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="bar-item-header">
+              <span>Commerce XII</span>
+              <span style="color:var(--green)">92%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="background:var(--green)" data-width="92%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y" style="display:flex; flex-direction:column; gap:22px;">
+        
+        <div class="card-box">
+          <div class="box-head">
+            <h2>📅 July 2026 Calendar</h2>
+          </div>
+
+          <div class="calendar-grid" id="calGrid">
+            <div class="cal-dow">S</div>
+            <div class="cal-dow">M</div>
+            <div class="cal-dow">T</div>
+            <div class="cal-dow">W</div>
+            <div class="cal-dow">T</div>
+            <div class="cal-dow">F</div>
+            <div class="cal-dow">S</div>
+            </div>
+
+          <div class="cal-legend">
+            <div class="legend-item"><i class="cal-dot dot-present"></i> Present</div>
+            <div class="legend-item"><i class="cal-dot dot-absent"></i> Absent</div>
+            <div class="legend-item"><i class="cal-dot dot-holiday"></i> Holiday</div>
+            <div class="legend-item"><i class="cal-dot dot-leave"></i> Leave</div>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div class="box-head">
+            <h2>👨‍🏫 Teacher Attendance</h2>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+            <div style="background:rgba(16,185,129,0.08); padding:12px; border-radius:14px; border:1px solid rgba(16,185,129,0.2)">
+              <div style="font-size:20px; font-weight:800; color:var(--green)">61</div>
+              <div style="font-size:11px; color:var(--muted); margin-top:2px">Present</div>
+            </div>
+            <div style="background:rgba(244,63,94,0.08); padding:12px; border-radius:14px; border:1px solid rgba(244,63,94,0.2)">
+              <div style="font-size:20px; font-weight:800; color:var(--red)">4</div>
+              <div style="font-size:11px; color:var(--muted); margin-top:2px">Absent</div>
+            </div>
+            <div style="background:rgba(59,130,246,0.08); padding:12px; border-radius:14px; border:1px solid rgba(59,130,246,0.2)">
+              <div style="font-size:20px; font-weight:800; color:var(--blue)">3</div>
+              <div style="font-size:11px; color:var(--muted); margin-top:2px">On Leave</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="layout-2col">
+      
+      <div class="card-box">
+        <div class="box-head">
+          <h2>📢 Recent Notices</h2>
+          <button class="btn-create-notice">+ Create Notice</button>
+        </div>
+
+        <div class="notice-list">
+          <div class="notice-item">
+            <div>
+              <div class="notice-title">Independence Day Programme</div>
+              <div class="notice-date">Published: Aug 10, 2026</div>
+            </div>
+            <span class="badge-prio prio-high">High Priority</span>
+          </div>
+
+          <div class="notice-item">
+            <div>
+              <div class="notice-title">Monthly Attendance Review</div>
+              <div class="notice-date">Published: Jul 28, 2026</div>
+            </div>
+            <span class="badge-prio prio-medium">Medium</span>
+          </div>
+
+          <div class="notice-item">
+            <div>
+              <div class="notice-title">Parent Meeting Notice</div>
+              <div class="notice-date">Published: Jul 25, 2026</div>
+            </div>
+            <span class="badge-prio prio-normal">Normal</span>
+          </div>
+
+          <div class="notice-item">
+            <div>
+              <div class="notice-title">College Holiday Notice</div>
+              <div class="notice-date">Published: Jul 20, 2026</div>
+            </div>
+            <span class="badge-prio prio-normal">Normal</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div class="box-head">
+          <h2>⚡ Recent Activity</h2>
+        </div>
+
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-text">Teacher marked attendance for Commerce XII</div>
+            <div class="tl-time">10 mins ago</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-text">New student record updated (Roll: IA24-099)</div>
+            <div class="tl-time">45 mins ago</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-text">Attendance report generated for July</div>
+            <div class="tl-time">2 hours ago</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-text">Notice published: Independence Day Programme</div>
+            <div class="tl-time">5 hours ago</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // 1. Counter Animation Logic
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll(".card-value[data-target]");
+      counters.forEach(counter => {
+        const target = +counter.getAttribute("data-target");
+        let count = 0;
+        const speed = target / 50;
+        
+        const updateCount = () => {
+          count += speed;
+          if (count < target) {
+            counter.innerText = Math.ceil(count).toLocaleString();
+            setTimeout(updateCount, 25);
+          } else {
+            counter.innerText = target.toLocaleString();
+          }
+        };
+        updateCount();
+      });
+
+      // 2. Animate Progress Bars
+      setTimeout(() => {
+        const fills = document.querySelectorAll(".progress-fill");
+        fills.forEach(fill => {
+          fill.style.width = fill.getAttribute("data-width");
+        });
+      }, 300);
+
+      // 3. Render Calendar Days Dynamically
+      const calGrid = document.getElementById("calGrid");
+      const totalDays = 31; // July 2026
+      
+      for (let day = 1; day <= totalDays; day++) {
+        const dayEl = document.createElement("div");
+        dayEl.className = "cal-day";
+        dayEl.innerHTML = `<span>${day}</span>`;
+
+        const dot = document.createElement("div");
+        dot.className = "cal-dot ";
+
+        // Dummy status mapping
+        if ([5, 12, 19, 26].includes(day)) {
+          dot.className += "dot-holiday";
+        } else if ([11, 18].includes(day)) {
+          dot.className += "dot-absent";
+        } else if ([27].includes(day)) {
+          dot.className += "dot-leave";
+        } else {
+          dot.className += "dot-present";
+        }
+
+        dayEl.appendChild(dot);
+        calGrid.appendChild(dayEl);
+      }
+    });
+  </script>
+</body>
+</html>
