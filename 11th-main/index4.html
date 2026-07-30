@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Timetable Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f1f1f1;
+    }
+    h2 {
+      text-align: center;
+    }
+    .container {
+      background: white;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    input[type="date"], button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    #output {
+      background-color: #e0e0e0;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      min-height: 100px;
+    }
+    #output table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      margin-top: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    #output th, #output td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    #output th {
+      background-color: #007bff;
+      color: white;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .buttons button, .buttons a {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      text-decoration: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .buttons button:hover, .buttons a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Daily College Timetable</h2>
+    <input type="date" id="dateInput" />
+    <button onclick="showTimetable()">Done</button>
+    <div id="output"></div>
+    <div class="buttons">
+      <button onclick="copyToClipboard()">📋 Copy</button>
+      <a id="whatsappBtn" href="#" target="_blank">📤 Share via WhatsApp</a>
+    </div>
+  </div>
+
+  <script>
+    const timetable = {
+      Monday: `10:00 - 10:45: Statistics - Smiti Madam
+10:45 - 11:30: Fundamentals of Entrepreneurship - Sidhant Sir
+11:30 - 12:15: MIL O/H - Odia/Hindi
+12:15 - 1:00: Accountancy - Sanjay Sir
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Tuesday: `10:00 - 10:45: Statistics - Smiti Madam
+10:45 - 11:30: Fundamentals of Entrepreneurship - Sidhant Sir
+11:30 - 12:15: Accountancy - Sanjay Sir
+12:15 - 1:00: English - Simantika Madam
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Wednesday: `10:00 - 10:45: Statistics - Smiti Madam
+10:45 - 11:30: Fundamentals of Entrepreneurship - Sidhant Sir
+11:30 - 12:15: MIL O/H - Odia/Hindi
+12:15 - 1:00: English - Simantika Madam
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Thursday: `10:00 - 10:45: Statistics - Smiti Madam
+10:45 - 11:30: Fundamentals of Entrepreneurship - Sidhant Sir
+11:30 - 12:15: Accountancy - Sanjay Sir
+12:15 - 1:00: Business Studies - Faizahn Sir
+1:00 - 1:45: Blank - Blank`,
+
+      Friday: `10:00 - 10:45: Yoga - Yoga
+10:45 - 11:30: English - Simantika Madam
+11:30 - 12:15: MIL O/H - Odia/Hindi
+12:15 - 1:00: Accountancy - Sanjay Sir
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Saturday: `10:00 - 10:45: Yoga - Yoga
+10:45 - 11:30: English - Simantika Madam
+11:30 - 12:15: MIL O/H - Odia/Hindi
+12:15 - 1:00: Blank - Blank
+1:00 - 1:45: Business Studies - Faizahn Sir`,
+
+      Sunday: `Holiday - No Classes`
+    };
+
+    function showTimetable() {
+      const date = new Date(document.getElementById('dateInput').value);
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+      const dayData = timetable[dayName];
+
+      if (dayData) {
+        if (dayData.includes("Holiday")) {
+          document.getElementById('output').innerHTML = `<strong>📅 ${dayName}</strong><br><br><em>${dayData}</em>`;
+          document.getElementById('whatsappBtn').href = "https://wa.me/?text=" + encodeURIComponent(`${dayName}: ${dayData}`);
+        } else {
+          let rows = dayData.split('\n').map(line => {
+            const [time, rest] = line.split(': ');
+            const [subject, teacher] = rest.split(' - ');
+            return `<tr>
+              <td><strong>${time}</strong></td>
+              <td>${subject}</td>
+              <td>${teacher}</td>
+            </tr>`;
+          }).join('');
+
+          const table = `
+            <strong>📅 ${dayName}</strong><br><br>
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Subject</th>
+                  <th>Teacher</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>`;
+
+          document.getElementById('output').innerHTML = table;
+          document.getElementById('whatsappBtn').href = "https://wa.me/?text=" + encodeURIComponent(`${dayName} Timetable:\n\n${dayData}`);
+        }
+      } else {
+        document.getElementById('output').innerHTML = "<strong>No classes on this day!</strong>";
+        document.getElementById('whatsappBtn').href = "#";
+      }
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById('output').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>

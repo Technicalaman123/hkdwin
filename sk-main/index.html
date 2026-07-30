@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="hi" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hirakud Higher Secondary School</title>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLTW30L8ZQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YLTW30L8ZQ');
+  </script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .category-btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .category-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .category-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .category-btn:hover {
+      transform: scale(1.03) translateY(-3px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .category-btn.active {
+      transform: scale(1.02);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    
+    .subject-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+      opacity: 0;
+    }
+    
+    .subject-list.active {
+      max-height: 800px;
+      opacity: 1;
+    }
+    
+    .subject-item {
+      animation: slideIn 0.4s ease forwards;
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .subject-item:nth-child(1) { animation-delay: 0.1s; }
+    .subject-item:nth-child(2) { animation-delay: 0.2s; }
+    .subject-item:nth-child(3) { animation-delay: 0.3s; }
+    .subject-item:nth-child(4) { animation-delay: 0.4s; }
+    .subject-item:nth-child(5) { animation-delay: 0.5s; }
+    
+    .subject-item:hover {
+      transform: translateX(10px) scale(1.02);
+      transition: all 0.3s ease;
+    }
+    
+    .icon-rotate {
+      transition: transform 0.4s ease;
+    }
+    
+    .icon-rotate.active {
+      transform: rotate(180deg);
+    }
+    
+    .glow-effect {
+      position: relative;
+    }
+    
+    .glow-effect::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #6366f1, #3b82f6, #06b6d4, #10b981);
+      border-radius: 1rem;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      background-size: 300% 300%;
+      animation: gradient 3s ease infinite;
+    }
+    
+    .glow-effect:hover::after {
+      opacity: 1;
+    }
+    
+    .newly-added-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      animation: borderPulse 2.5s ease-in-out infinite;
+    }
+    
+    @keyframes borderPulse {
+      0%, 100% {
+        border-color: #3b82f6;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      }
+      50% {
+        border-color: #06b6d4;
+        box-shadow: 0 0 35px rgba(6, 182, 212, 0.5);
+      }
+    }
+    
+    .notice-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #3b82f6;
+      transition: all 0.3s ease;
+    }
+    
+    .notice-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(10px);
+      border-left-color: #06b6d4;
+    }
+    
+    .developer-credit {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border: 2px solid #3b82f6;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25);
+      transition: all 0.3s ease;
+    }
+    
+    .developer-credit:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(6, 182, 212, 0.4);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-slate-950 text-slate-100">
+  <div id="app-wrapper" class="w-full h-full overflow-auto">
+   <div class="min-h-full px-4 sm:px-6 py-10">
+    
+    <div class="max-w-4xl mx-auto mb-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a href="attendance.html" target="_blank" rel="noopener noreferrer" 
+         class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-bold shadow-lg hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+        <span>📋</span> Check Attendance
+      </a>
+      <a href="timetable.html" rel="noopener noreferrer" 
+         class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-rose-700 text-white font-bold shadow-lg hover:shadow-red-600/30 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+        <span>📅</span> Check Timetable
+      </a>
+    </div>
+
+    <header class="text-center mb-10">
+     <div class="mb-6 flex justify-center">
+      <div class="inline-block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-4 rounded-2xl shadow-2xl border-2 border-indigo-400/40">
+       <h1 id="school-name" class="text-2xl sm:text-3xl font-extrabold text-white tracking-wide">Hirakud Higher Secondary School</h1>
+      </div>
+     </div>
+     <h2 id="page-title" class="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">Class 12th Subject Categories</h2>
+     <p id="page-subtitle" class="text-sm sm:text-base font-light text-slate-400">Choose your stream and explore subjects</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto space-y-4">
+      
+      <div class="category-container">
+          <button class="category-btn glow-effect w-full bg-slate-900 border border-slate-800 rounded-xl p-5 text-left shadow-2xl flex items-center justify-between" onclick="toggleCategory('commerce')" id="commerce-btn">
+              <div class="flex items-center space-x-4">
+                  <div class="text-3xl sm:text-4xl">📊</div>
+                  <div>
+                      <h2 id="commerce-title" class="text-xl sm:text-2xl font-bold text-white">Commerce</h2>
+                      <p class="text-xs text-slate-400 mt-0.5">Business &amp; Accounting Stream</p>
+                  </div>
+              </div>
+              <svg class="icon-rotate w-6 h-6 text-slate-400" id="commerce-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </button> 
+          <div class="subject-list mt-3 px-2 sm:px-6" id="commerce-subjects">
+              <div class="space-y-2">
+                  <a href="Commerce/Accountancy/Accountancy.html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">📈</span> <span class="text-sm sm:text-base font-medium text-slate-200">Accountancy</span>
+                  </a>
+                  <a href="Commerce/Business Mathmatics & statistics/Business Mathmatics & statistics.html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">🔢</span> <span class="text-sm sm:text-base font-medium text-slate-200">Business Mathematics & Statistics</span>
+                  </a>
+                  <a href="Commerce/Business studies & Management/Business studies & Management.html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">💼</span> <span class="text-sm sm:text-base font-medium text-slate-200">Business Studies & Management</span>
+                  </a>
+                  <a href="Commerce/Fundamental of management Accounting/Fundamental of management Accounting .html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">🧾</span> <span class="text-sm sm:text-base font-medium text-slate-200">Fundamental of Management Accounting</span>
+                  </a>
+                  <a href="Commerce/Cost Accounting/Cost Accounting.html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">💰</span> <span class="text-sm sm:text-base font-medium text-slate-200">Cost Accounting</span>
+                  </a>
+              </div>
+          </div>
+      </div>
+
+      <div class="category-container">
+          <button class="category-btn glow-effect w-full bg-slate-900 border border-slate-800 rounded-xl p-5 text-left shadow-2xl flex items-center justify-between" onclick="toggleCategory('arts')" id="arts-btn">
+              <div class="flex items-center space-x-4">
+                  <div class="text-3xl sm:text-4xl">🎨</div>
+                  <div>
+                      <h2 id="arts-title" class="text-xl sm:text-2xl font-bold text-white">Arts</h2>
+                      <p class="text-xs text-slate-400 mt-0.5">Humanities &amp; Social Sciences</p>
+                  </div>
+              </div>
+              <svg class="icon-rotate w-6 h-6 text-slate-400" id="arts-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </button>
+          <div class="subject-list mt-3 px-2 sm:px-6" id="arts-subjects">
+              <div class="space-y-2">
+                  <a href="Arts/History/History.html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">📚</span> <span class="text-sm sm:text-base font-medium text-slate-200">History</span>
+                  </a>
+                  <a href="Arts/Political Science/Political Science .html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">🗳️</span> <span class="text-sm sm:text-base font-medium text-slate-200">Political Science</span>
+                  </a>
+                  <a href="Arts/Economics/Economics.html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">📊</span> <span class="text-sm sm:text-base font-medium text-slate-200">Economics</span>
+                  </a>
+                  <a href="Arts/Education/Education .html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">📘</span> <span class="text-sm sm:text-base font-medium text-slate-200">Education</span>
+                  </a>
+                  <a href="Arts/Odia (Optional)/Odia (Optional).html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">🇮🇳</span> <span class="text-sm sm:text-base font-medium text-slate-200">Odia (Optional)</span>
+                  </a>
+              </div>
+          </div>
+      </div>
+
+      <div class="category-container">
+          <button class="category-btn glow-effect w-full bg-slate-900 border border-slate-800 rounded-xl p-5 text-left shadow-2xl flex items-center justify-between" onclick="toggleCategory('optionals')" id="optionals-btn">
+              <div class="flex items-center space-x-4">
+                  <div class="text-3xl sm:text-4xl">⭐</div>
+                  <div>
+                      <h2 id="optionals-title" class="text-xl sm:text-2xl font-bold text-white">Optionals</h2>
+                      <p class="text-xs text-slate-400 mt-0.5">Additional Subject Choices</p>
+                  </div>
+              </div>
+              <svg class="icon-rotate w-6 h-6 text-slate-400" id="optionals-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+          </button>
+          <div class="subject-list mt-3 px-2 sm:px-6" id="optionals-subjects">
+              <div class="space-y-2">
+                  <a href="Optionals/English/English .html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">🇬🇧</span> <span class="text-sm sm:text-base font-medium text-slate-200">English</span>
+                  </a>
+                  <a href="Optionals/MIL Odia/MIL Odia.html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">📝</span> <span class="text-sm sm:text-base font-medium text-slate-200">MIL Odia</span>
+                  </a>
+                  <a href="Optionals/Mil hindi/Mil hindi .html" rel="noopener noreferrer" class="subject-item bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-lg shadow-lg flex items-center space-x-3 cursor-pointer block">
+                      <span class="text-xl">📔</span> <span class="text-sm sm:text-base font-medium text-slate-200">MIL Hindi</span>
+                  </a>
+            </div>
+           </div>
+      </div>
+
+      <div class="mt-10">
+        <div class="newly-added-section rounded-2xl p-6 shadow-2xl border-2">
+         <div class="flex items-center space-x-3 mb-4">
+          <span class="text-2xl">📢</span>
+          <h3 id="newly-added-title" class="text-xl font-bold text-blue-400">Newly Added</h3>
+         </div>
+         <div class="space-y-3 pl-1">
+          <a href="New-Batch.html" rel="noopener noreferrer" class="notice-item p-3.5 rounded-lg flex items-start space-x-2 block"> 
+            <span class="text-lg">✨</span> <p class="text-sm text-slate-300">New batch starting from 1st January 2026</p>
+          </a> 
+          <a href="Study-Material.html" rel="noopener noreferrer" class="notice-item p-3.5 rounded-lg flex items-start space-x-2 block"> 
+            <span class="text-lg">📚</span> <p class="text-sm text-slate-300">Free study material for all students</p>
+          </a> 
+          <a href="Doubt-Sessions.html" rel="noopener noreferrer" class="notice-item p-3.5 rounded-lg flex items-start space-x-2 block"> 
+            <span class="text-lg">🎯</span> <p class="text-sm text-slate-300">Special doubt clearing sessions every weekend</p>
+          </a>
+         </div>
+        </div>
+       </div>
+
+    </main>
+
+    <footer class="mt-12 text-center pb-6">
+     <div class="developer-credit p-4 rounded-xl inline-block">
+      <p class="text-xs text-slate-400 mb-1">Developed By</p>
+      <p id="developer-name" class="text-lg font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Technical Aman</p>
+     </div>
+    </footer>
+
+   </div>
+  </div>
+
+  <script>
+    const defaultConfig = {
+      school_name: "Hirakud Higher Secondary School",
+      page_title: "Class 12th Subject Categories",
+      page_subtitle: "Choose your stream and explore subjects",
+      commerce_title: "Commerce",
+      arts_title: "Arts",
+      optionals_title: "Optionals",
+      newly_added_title: "Newly Added",
+      developer_name: "Technical Aman",
+      background_color: "#020617",
+      card_color: "#0f172a",
+      text_color: "#f8fafc",
+      primary_action_color: "#3b82f6",
+      secondary_surface_color: "#1e293b",
+      font_family: "sans-serif",
+      font_size: 16
+    };
+
+    let activeCategory = null;
+
+    function toggleCategory(category) {
+      const categories = ['commerce', 'arts', 'optionals'];
+      
+      categories.forEach(cat => {
+        const subjectList = document.getElementById(`${cat}-subjects`);
+        const icon = document.getElementById(`${cat}-icon`);
+        const btn = document.getElementById(`${cat}-btn`);
+        
+        if (cat === category) {
+          if (activeCategory === category) {
+            subjectList.classList.remove('active');
+            icon.classList.remove('active');
+            btn.classList.remove('active');
+            activeCategory = null;
+          } else {
+            subjectList.classList.add('active');
+            icon.classList.add('active');
+            btn.classList.add('active');
+            activeCategory = category;
+          }
+        } else {
+          subjectList.classList.remove('active');
+          icon.classList.remove('active');
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    async function onConfigChange(config) {
+      const schoolName = document.getElementById('school-name');
+      const pageTitle = document.getElementById('page-title');
+      const pageSubtitle = document.getElementById('page-subtitle');
+      const commerceTitle = document.getElementById('commerce-title');
+      const artsTitle = document.getElementById('arts-title');
+      const optionalsTitle = document.getElementById('optionals-title');
+      const newlyAddedTitle = document.getElementById('newly-added-title');
+      const developerName = document.getElementById('developer-name');
+
+      schoolName.textContent = config.school_name || defaultConfig.school_name;
+      pageTitle.textContent = config.page_title || defaultConfig.page_title;
+      pageSubtitle.textContent = config.page_subtitle || defaultConfig.page_subtitle;
+      commerceTitle.textContent = config.commerce_title || defaultConfig.commerce_title;
+      artsTitle.textContent = config.arts_title || defaultConfig.arts_title;
+      optionalsTitle.textContent = config.optionals_title || defaultConfig.optionals_title;
+      newlyAddedTitle.textContent = config.newly_added_title || defaultConfig.newly_added_title;
+      developerName.textContent = config.developer_name || defaultConfig.developer_name;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: {},
+        fontSizeable: {}
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["school_name", config.school_name || defaultConfig.school_name],
+        ["page_title", config.page_title || defaultConfig.page_title],
+        ["page_subtitle", config.page_subtitle || defaultConfig.page_subtitle],
+        ["commerce_title", config.commerce_title || defaultConfig.commerce_title],
+        ["arts_title", config.arts_title || defaultConfig.arts_title],
+        ["optionals_title", config.optionals_title || defaultConfig.optionals_title],
+        ["newly_added_title", config.newly_added_title || defaultConfig.newly_added_title],
+        ["developer_name", config.developer_name || defaultConfig.developer_name]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ </body>
+</html>

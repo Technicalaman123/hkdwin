@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to HSS College Management App - Login</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-4 relative overflow-x-hidden">
+
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-[128px]"></div>
+    <div class="absolute top-1/2 right-0 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-[160px]"></div>
+    <div class="absolute bottom-0 left-1/3 w-96 h-96 bg-cyan-600/10 rounded-full blur-[128px]"></div>
+  </div>
+
+  <div id="loginCard" class="relative z-10 w-full max-w-md bg-slate-900/90 border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-xl transition-all">
+    
+    <div class="text-center space-y-3 mb-6">
+      <div class="relative w-full h-36 rounded-xl overflow-hidden border border-slate-700/60 shadow-md">
+        <img 
+          src="https://picsum.photos/600/300?random=1" 
+          alt="HSS College Header Image" 
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
+      </div>
+
+      <div>
+        <h1 class="text-2xl font-extrabold tracking-tight text-white mt-2">
+          Welcome to HSS College Management App
+        </h1>
+        <p class="text-xs text-slate-400 font-medium mt-1">
+          Secure access portal for Students, Teachers & Principal
+        </p>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+        Select User Role
+      </label>
+      <div class="grid grid-cols-3 gap-2">
+        <button type="button" onclick="selectRole('Student')" id="btnStudent" class="role-btn py-2.5 px-3 text-xs font-semibold rounded-xl border border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700 transition-all flex flex-col items-center gap-1.5">
+          <i data-lucide="user" class="w-4 h-4"></i>
+          Student
+        </button>
+        <button type="button" onclick="selectRole('Teacher')" id="btnTeacher" class="role-btn py-2.5 px-3 text-xs font-semibold rounded-xl border border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700 transition-all flex flex-col items-center gap-1.5">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          Teacher
+        </button>
+        <button type="button" onclick="selectRole('Principal')" id="btnPrincipal" class="role-btn py-2.5 px-3 text-xs font-semibold rounded-xl border border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700 transition-all flex flex-col items-center gap-1.5">
+          <i data-lucide="building-2" class="w-4 h-4"></i>
+          Principal
+        </button>
+      </div>
+
+      <div class="space-y-1.5 pt-2">
+        <label for="passwordInput" class="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+          Password
+        </label>
+        <div class="relative">
+          <input 
+            type="password" 
+            id="passwordInput" 
+            placeholder="Enter password"
+            class="w-full px-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+            onkeypress="if(event.key === 'Enter') handleLogin()"
+          />
+        </div>
+        
+        <p id="errorMessage" class="text-xs text-rose-500 font-medium hidden pt-1">
+          Invalid password. Please try again.
+        </p>
+        <p id="successMessage" class="text-xs text-emerald-400 font-semibold hidden pt-1">
+          Login Successful! Redirecting...
+        </p>
+      </div>
+
+      <button 
+        type="button" 
+        onclick="handleLogin()"
+        class="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-lg shadow-blue-600/25 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+      >
+        Login
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+
+      <div class="pt-4 border-t border-slate-800/80 text-center">
+        <p class="text-[11px] text-slate-500">
+          Demo Passwords: <br>
+          <span class="font-mono text-slate-400">Student: 123456 | Teacher: 222333 | Principal: 10100101</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedRole = 'Student';
+
+    const passwords = {
+      'Student': '123456',
+      'Teacher': '222333',
+      'Principal': '10100101'
+    };
+
+    const redirectUrls = {
+      'Student': 'sk-main/index.html',
+      'Teacher': '11th-main/index2.html',
+      'Principal': 'Principal.html'
+    };
+
+    function selectRole(role) {
+      selectedRole = role;
+      
+      // Update UI tabs state
+      ['Student', 'Teacher', 'Principal'].forEach(r => {
+        const btn = document.getElementById(`btn${r}`);
+        if (r === role) {
+          btn.classList.add('bg-blue-600/20', 'border-blue-500', 'text-blue-400');
+          btn.classList.remove('bg-slate-950/60', 'border-slate-800', 'text-slate-300');
+        } else {
+          btn.classList.remove('bg-blue-600/20', 'border-blue-500', 'text-blue-400');
+          btn.classList.add('bg-slate-950/60', 'border-slate-800', 'text-slate-300');
+        }
+      });
+
+      // Clear messages
+      document.getElementById('errorMessage').classList.add('hidden');
+      document.getElementById('successMessage').classList.add('hidden');
+    }
+
+    function handleLogin() {
+      const inputPassword = document.getElementById('passwordInput').value;
+      const errorMsg = document.getElementById('errorMessage');
+      const successMsg = document.getElementById('successMessage');
+
+      if (inputPassword === passwords[selectedRole]) {
+        errorMsg.classList.add('hidden');
+        successMsg.classList.remove('hidden');
+
+        // Redirect after a short delay so user can see "Login Successful"
+        setTimeout(() => {
+          window.location.href = redirectUrls[selectedRole];
+        }, 1000);
+
+      } else {
+        successMsg.classList.add('hidden');
+        errorMsg.classList.remove('hidden');
+      }
+    }
+
+    window.onload = () => {
+      selectRole('Student');
+      lucide.createIcons();
+    };
+  </script>
+</body>
+</html>
