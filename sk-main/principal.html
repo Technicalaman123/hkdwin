@@ -136,6 +136,7 @@
       object-fit: cover;
       border: 2px solid rgba(168, 85, 247, 0.5);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      display: block;
     }
 
     .badge-access {
@@ -611,10 +612,9 @@
     }
 
     @keyframes fillRing {
-      to { stroke-dashoffset: 31; } /* 377 * (1 - 0.918) approx */
+      to { stroke-dashoffset: 31; }
     }
 
-    /* Responsive adjustments */
     @media (max-width: 900px) {
       .layout-2col { grid-template-columns: 1fr; }
       .profile-inner { flex-direction: column; align-items: flex-start; }
@@ -637,12 +637,14 @@
       <div class="profile-inner">
         <div class="principal-info">
           <div class="avatar-wrapper">
-            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=250&auto=format&fit=crop" alt="Mr. Rajesh Kumar" class="avatar-img" />
+            <a href="principal.png" target="_blank" title="View Principal Profile Image">
+              <img src="principal.jpg" alt="Mr. Rajesh Kumar" class="avatar-img" onerror="this.src='https://via.placeholder.com/80?text=Principal';" />
+            </a>
           </div>
           <div class="principal-details">
             <span class="badge-access">⚡ Administrator Access</span>
-            <h1>Mr. Rajesh Kumar</h1>
-            <div class="school-name">Principal • Gurukul Higher Secondary School</div>
+            <h1>Smt.Sumitra panda</h1>
+            <div class="school-name">Principal • Hirakud Higher Secondary School</div>
           </div>
         </div>
         <div class="session-pill">
@@ -790,7 +792,7 @@
             <div class="cal-dow">T</div>
             <div class="cal-dow">F</div>
             <div class="cal-dow">S</div>
-            </div>
+          </div>
 
           <div class="cal-legend">
             <div class="legend-item"><i class="cal-dot dot-present"></i> Present</div>
@@ -900,7 +902,6 @@
   </div>
 
   <script>
-    // 1. Counter Animation Logic
     document.addEventListener("DOMContentLoaded", () => {
       const counters = document.querySelectorAll(".card-value[data-target]");
       counters.forEach(counter => {
@@ -920,7 +921,6 @@
         updateCount();
       });
 
-      // 2. Animate Progress Bars
       setTimeout(() => {
         const fills = document.querySelectorAll(".progress-fill");
         fills.forEach(fill => {
@@ -928,9 +928,8 @@
         });
       }, 300);
 
-      // 3. Render Calendar Days Dynamically
       const calGrid = document.getElementById("calGrid");
-      const totalDays = 31; // July 2026
+      const totalDays = 31;
       
       for (let day = 1; day <= totalDays; day++) {
         const dayEl = document.createElement("div");
@@ -940,7 +939,6 @@
         const dot = document.createElement("div");
         dot.className = "cal-dot ";
 
-        // Dummy status mapping
         if ([5, 12, 19, 26].includes(day)) {
           dot.className += "dot-holiday";
         } else if ([11, 18].includes(day)) {
